@@ -1,0 +1,529 @@
+:root {
+    --bg-color: #0f0f0f;
+    --primary-color: #a259ff;
+    --secondary-color: #d19aff;
+    --text-color: #f0f0f0;
+    --muted-color: #888;
+    --accent-glow: 0 0 10px #a259ff, 0 0 20px #a259ff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: #121212;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  
+  .logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: var(--accent-glow);
+  }
+  
+  nav a {
+    margin-left: 20px;
+    color: var(--muted-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  nav a:hover {
+    color: var(--primary-color);
+  }
+  
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('img/BG.png');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+  }
+  
+  .hero h1,
+  .hero p {
+    z-index: 1;
+  }
+  
+  .hero {
+  position: relative;
+  }
+
+  .hero h1 {
+    font-size: 3em;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2em;
+    color: var(--muted-color);
+    max-width: 600px;
+  }
+  
+  .section {
+    padding: 80px 20px;
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .section h2 {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+  }
+  
+  .section p {
+    font-size: 1.1em;
+    color: var(--text-color);
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: #121212;
+    color: var(--muted-color);
+    font-size: 0.9em;
+  }
+  
+  .loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    z-index: 9999;
+    animation: fadeOut 1.5s ease forwards;
+    animation-delay: 1.5s;
+  }
+  
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  
+  /* Кнопки — кастомные */
+  button {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background: #8a40f8;
+    transform: scale(1.05);
+  }
+  
+  /* Карточки товаров — заготовка */
+  .card {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px;
+    color: var(--text-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .start {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .bot-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .bot-btn {
+    padding: 16px 30px;
+    background: linear-gradient(135deg, #6f42c1, #a259ff);
+    color: white;
+    font-size: 1.1em;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: none;
+  }
+  
+  .bot-btn:hover {
+    transform: scale(1.05);
+  }
+  
+  h1, h2, .hero-title {
+    font-family: 'Russo One', sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .site-logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-family: 'Russo One', sans-serif;
+    font-size: 24px;
+  }
+  
+  .logo-text .white {
+    color: white;
+  }
+  
+  .logo-text .purple {
+    color: #a259ff;
+  }
+    
+  #reviews {
+    padding: 40px 20px;
+    background-color: #1a1a1a;
+    color: white;
+    border-radius: 20px;
+  }
+  
+  #reviews h2 {
+    text-align: center;
+    font-family: 'Russo One', sans-serif;
+    margin-bottom: 30px;
+  }
+  
+  .review-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .review-item {
+    text-align: center;
+    width: 200px;
+    flex-shrink: 0;
+  }
+  
+  .review-item img {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .review-item p {
+    margin: 5px 0;
+  }
+  
+  .review-item strong {
+    display: block;
+    font-size: 16px;
+  }
+
+  /* Стили для шрифта и текста */
+  .lootlabs-text {
+    font-family: 'Russo One', sans-serif;
+    color: #a259ff;
+  }
+
+   /* Стили для шрифта и текста */
+   .lootlabs-text {
+    font-family: 'Russo One', sans-serif;
+    color: #a259ff;
+  }
+
+  /* Стили для карточек */
+  .card {
+    text-align: center;
+    width: 220px;
+    padding: 20px;
+    border: 2px solid #a259ff;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* Эффект при наведении */
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .card div {
+    font-size: 40px;
+  }
+
+  .card h3 {
+    margin-top: 10px;
+  }
+
+  .card p {
+    margin-top: 10px;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+    padding: 20px 0;
+  }
+
+  /* Стили для модального окна */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    background-color: #101010;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .site-footer {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    background-color: #111;
+    font-size: 14px;
+  }
+  
+  .promo-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #1a1a1a;
+    border: 2px solid #a259ff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.1rem;
+    justify-content: center;
+  }
+  
+  .promo-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .promo-text strong {
+    color: #a259ff;
+  }
+  
+  .review-card {
+    display: inline-block;
+    margin-right: 20px;
+    text-align: center;
+    width: 48%; /* Два отзыва в одном ряду */
+    margin-bottom: 20px;
+  }
+
+  .review-image {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Горизонтальная прокрутка для контейнера с отзывами */
+  #reviews > div {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #8a2be2 transparent; /* Фиолетовый скролл без фона */
+  }
+
+  #reviews > div::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #reviews > div::-webkit-scrollbar-track {
+    background: transparent; /* Убираем фон */
+  }
+
+  #reviews > div::-webkit-scrollbar-thumb {
+    background: #8a2be2;
+    border-radius: 10px;
+  }
+
+  /* Стили для бокового скролла всего сайта */
+  body::-webkit-scrollbar {
+    width: 8px; /* Ширина вертикального скролла */
+  }
+
+  body::-webkit-scrollbar-track {
+    background: transparent; /* Убираем фон для трека */
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: #8a2be2; /* Фиолетовый цвет ползунка */
+    border-radius: 10px; /* Скруглённые углы */
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll; /* Добавляем вертикальный скролл, если нужно */
+  }
+
+  @media screen and (max-width: 768px) {
+    .review-card {
+      width: 100%; /* Один отзыв на экранах меньше 768px */
+      margin-right: 0;
+      text-align: center;
+    }
+  }
+
+  /* Money */
+
+  /* Тёмный счётчик с чёрной основой */
+.dark-money-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.2em;
+  background: #0a0a0a;
+  padding: 14px 22px;
+  border-radius: 50px;
+  border: 2px solid #2a2a2a;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5),
+              inset 0 0 8px rgba(162, 89, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Тёмная сумма */
+.dark-money-amount {
+  color: #e0e0e0;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(162, 89, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+/* Символ рубля */
+.dark-currency {
+  color: #a259ff;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(162, 89, 255, 0.6);
+}
+
+/* Эффект рамки при наведении */
+.dark-money-counter:hover {
+  border-color: #3a3a3a;
+  box-shadow: 0 0 15px rgba(162, 89, 255, 0.3),
+              inset 0 0 12px rgba(162, 89, 255, 0.2);
+}
+
+/* Акцентная полоска */
+.dark-money-counter::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+              transparent, 
+              var(--primary-color), 
+              transparent);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.dark-money-counter:hover::after {
+  width: 80%;
+  opacity: 1;
+}
+
+/* Адаптация */
+@media (max-width: 768px) {
+  .dark-money-counter {
+    padding: 12px 18px;
+    font-size: 1em;
+  }
+}

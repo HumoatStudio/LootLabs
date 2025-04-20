@@ -1,0 +1,56 @@
+.logo-panel {
+    position: absolute;
+    top: 80px; /* зависит от высоты header */
+    left: 20px;
+    background-color: #1e1e2f;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.logo-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.logo-panel li {
+    margin: 10px 0;
+}
+
+.logo-panel a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logo-panel a:hover {
+    color: #b889ff;
+}
+
+.site-header {
+    display: flex;
+    justify-content: flex-start; /* Логотип будет слева */
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px; /* Отступ между картинкой и текстом */
+}
+
+.site-logo {
+    width: 40px; /* или свой размер */
+    height: auto;
+}
+
+.logo-text {
+    margin-left: 10px; /* Немного отступаем текст от логотипа */
+}

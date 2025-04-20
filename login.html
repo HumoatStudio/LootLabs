@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Вход — LootLabs</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="img/Logo.png" type="image/png">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: var(--bg-color);
+      margin: 0;
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(162, 89, 255, 0.3);
+      text-align: center;
+    }
+
+    .login-form h1 {
+      font-family: 'Russo One', sans-serif;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .logo-text {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
+    .logo-text .white {
+      color: white;
+    }
+
+    .logo-text .purple {
+      color: var(--primary-color);
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    .login-form button {
+      width: 100%;
+    }
+
+    .login-form p {
+      color: var(--muted-color);
+      margin-top: 20px;
+    }
+
+    .login-form a {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-form">
+    <div class="logo-text"><span class="white">Loot</span><span class="purple">Labs</span></div>
+    <h1>Вход</h1>
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Логин" required />
+      <input type="password" id="loginPassword" placeholder="Пароль" required />
+      <button type="submit">Войти</button>
+    </form>
+    <p>Нет аккаунта? <a href="registration.html">Зарегистрироваться</a></p>
+  </div>
+
+  <!-- Скрипты -->
+  <script type="module" src="scripts/firebase.js"></script>  
+  <script type="module">
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";  // Импорт getAuth
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";  // Импорт initializeApp для инициализации Firebase
+
+    // Инициализация Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvSqCbcqiKgVps0qgLt8HFj0bArHmCZNs",
+      authDomain: "lootlabs-deb89.firebaseapp.com",
+      projectId: "lootlabs-deb89",
+      storageBucket: "lootlabs-deb89.firebasestorage.app",
+      messagingSenderId: "861666560425",
+      appId: "1:861666560425:web:e6f614e2bb4839fa505cb8",
+      measurementId: "G-NDY3GLKK3L"
+    };
+
+    // Инициализация Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Функция для входа
+    async function loginUser(email, password) {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        console.log('Пользователь вошёл:', user);
+      } catch (error) {
+        console.error('Ошибка входа:', error.message);
+      }
+    }
+    
+    // Слушаем отправку формы входа
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      loginUser(email, password);
+    });
+  </script>
+</body>
+</html>
