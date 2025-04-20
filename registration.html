@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Регистрация — LootLabs</title>
   <link rel="stylesheet" href="style.css"/>
+  <script type="module" src="scripts/register.js" defer></script>
   <link rel="icon" href="img/Logo.png" type="image/png">
   <style>
     body {
@@ -75,27 +76,12 @@
     <div class="logo-text"><span class="white">Loot</span><span class="purple">Labs</span></div>
     <h1>Регистрация</h1>
     <form id="registerForm">
-      <input type="text" id="username" placeholder="Логин" required />
+      <input type="email" id="e-mail" placeholder="Почта" required />
       <input type="password" id="password" placeholder="Пароль" required />
-      <button type="submit">Зарегистрироваться</button>
+      <button id="submit" type="submit">Зарегистрироваться</button>
     </form>
-    <p>Уже есть аккаунт? <a href="#">Войти</a></p>
+    <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
   </div>
-
-  <script>import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    // Функция для регистрации
-    async function registerUser(email, password) {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        console.log('Пользователь зарегистрирован:', user);
-      } catch (error) {
-        console.error('Ошибка регистрации:', error.message);
-      }
-    }
-    </script>
     <script type="module" src="script.js"></script>
-    <script type="module" src="scripts/firebase.js"></script> 
 </body>
 </html>

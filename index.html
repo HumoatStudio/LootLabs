@@ -33,7 +33,7 @@
           <img src="img/Logo.png" alt="LootLabs Logo" class="site-logo">
           <span class="logo-text"><span class="white">Loot</span><span class="purple">Labs</span></span>
       </div>
-  
+    
       <div class="logo-panel" id="logoPanel">
           <ul>
               <li><a href="login.html">Вход</a></li>
@@ -504,6 +504,13 @@
 
     <footer>&copy; 2025 LootLabs. Все права защищены.</footer>
 
+    <script>import { togglePanel } from './script.js';
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const logoContainer = document.querySelector('.logo-container');
+        logoContainer.addEventListener('click', togglePanel);
+      });
+      </script>"
     <script type="module" src="script.js"></script>
     <script src="scripts/shop.js"></script>
     <script src="scripts/promo.js"></script>
