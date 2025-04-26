@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LootLabs | Кейсы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="styles/menu.css"/>
+    <link rel="stylesheet" href="styles/case.css"/>
+    <link rel="stylesheet" href="styles/shop.css"/>
+    <script type="module" src="scripts/money.js"></script>
+    <script type="module" src="scripts/login.js"></script>
+    <script type="module" src="scripts/payment.js"></script>
+    <script src="scripts/shop.js"></script>
+    <link rel="icon" href="img/Logo.png" type="image/png">
+  </head>
+  <>
+    <div class="loader">
+      <h1>LootLabs</h1>
+    </div>     
+
+    <header>
+      <div class="dark-money-counter">
+        <div class="dark-money-amount">0</div>
+        <div class="dark-currency">₽</div>
+        <button id="topUpBalance" class="top-up-btn">Пополнить</button>
+      </div>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="case.html" class="active">Кейсы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </header>
+    
+    <header class="site-header">
+      <div class="logo-container" onclick="togglePanel()">
+          <img src="img/Logo.png" alt="LootLabs Logo" class="site-logo">
+          <span class="logo-text"><span class="white">Loot</span><span class="purple">Labs</span></span>
+      </div>
+    
+      <div class="logo-panel" id="logoPanel">
+          <ul>
+              <li><a href="login.html">Вход</a></li>
+              <li><a href="registration.html">Регистрация</a></li>
+              <li><a href="promocodes.html">Промокоды</a></li>
+              <li><a href="case.html">Кейсы</a></li>
+              <li><a href="#">Тех. Поддержка</a></li>
+          </ul>
+      </div>
+    </header>
+
+    <div class="promo-banner">
+      <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+      <span class="promo-text">
+        🔥 Промокод: 
+        <strong id="promo-code" style="cursor: pointer; text-decoration: underline;" onclick="copyPromoCode()">DROP5</strong> — скидка 7% на любой кейс!
+      </span>
+    </div>
+    
+    <script>
+      function copyPromoCode() {
+        const text = document.getElementById("promo-code").innerText;
+    
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            showCopiedPopup("Промокод скопирован!");
+          }).catch(err => {
+            console.error("Ошибка копирования:", err);
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+    
+      function fallbackCopy(text) {
+        const input = document.createElement("input");
+        input.setAttribute("value", text);
+        document.body.appendChild(input);
+        input.select();
+        try {
+          document.execCommand("copy");
+          showCopiedPopup("Промокод скопирован!");
+        } catch (err) {
+          console.error("Фолбэк копирования не удался:", err);
+        }
+        document.body.removeChild(input);
+      }
+    
+      function showCopiedPopup(message) {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "fixed";
+        popup.style.bottom = "20px";
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.background = "#6f42c1";
+        popup.style.color = "#fff";
+        popup.style.padding = "10px 20px";
+        popup.style.borderRadius = "10px";
+        popup.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+        popup.style.zIndex = "9999";
+        document.body.appendChild(popup);
+    
+        setTimeout(() => {
+          popup.remove();
+        }, 2000);
+      }
+
+      function togglePanel() {
+        const panel = document.getElementById('logoPanel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      }
+    </script>    
+    
+    <section class="hero">
+        <h1 style="color: white;">
+            <span style="color: #a259ff;">КЕЙСЫ</span>
+        </h1>
+      <p>Откройте уникальные предметы и получите шанс выиграть эксклюзивные награды</p>
+    </section>
+
+    <section id="store" class="section">
+        <h2>Магазин</h2>
+        <div class="store-items">
+  
+        <!-- Товар 1 -->
+        <div class="item-card">
+            <img src="img/Case1.png" alt="Ежедневный Кейс">
+            <h3>Ежедневный Кейс</h3>
+            <p class="item-description">💥 Открой уникальные награды каждый день и прокачай свои навыки! 💥</p>
+            <div class="price-wrapper">
+            <span class="price">1₽</span>
+            </div>
+            <div class="card-buttons">
+            <button class="details-btn" data-description="Этот кейс позволяет получить эксклюзивные бонусы каждый день!
+            
+            Призы
+
+          💸 От 1₽ До 50₽
+          🔖 Скидка на покупку кейса/товара (5-15%)
+          🎁 Бонус 'x2 награда в течение 1 часа'" data-image="img/Case1.png">
+                Подробнее
+            </button>
+            <button class="buy-btn"
+                data-price="1"
+                data-title="Ежедневный Кейс"
+                data-image="img/Case1.png"
+                data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+                Купить
+            </button>
+            </div>
+        </div>
+
+        <!-- Товар 2 -->
+        <div class="item-card">
+          <img src="img/Case1.png" alt="Сюрприз кейс">
+          <h3>Сюрприз кейс</h3>
+          <p class="item-description">Открывай кейс, лови бонусы и почувствуй вкус удачи! 💥</p>
+          <div class="price-wrapper">
+          <span class="price">49₽</span>
+          </div>
+          <div class="card-buttons">
+          <button class="details-btn" data-description="Промокоды, халява, кейсы, шанс на джекпот. Готов рискнуть? 🎯
+          
+          Призы
+
+          💸 От 30₽ До 100₽
+          🔖 Скидка 10% на любой кейс | 15%
+          🔖 Скидка 20% на один товар | 8%
+          💎 Золотой билет (шанс открыть VIP-кейс) | 3%
+          🪙 Промокод на +25% к следующему пополнению | 6%
+          🎉 500 монет (редкий супер-приз) | 1%
+          🎁 Бесплатный повтор открытия | 2%" data-image="img/Case1.png">
+              Подробнее
+          </button>
+          <button class="buy-btn"
+              data-price="49"
+              data-title="Сюрприз кейс"
+              data-image="img/Case1.png"
+              data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+              Купить
+          </button>
+          </div>
+        </div>
+
+          <div id="productModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <img id="modal-image" src="" alt="Изображение товара" class="modal-image">
+              <h3>Описание товара</h3>
+              <p id="modal-description-text"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Модальное окно -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
+
+      <!-- Новое модальное окно для успешной покупки -->
+      <div id="new-purchase-modal" class="new-modal">
+        <div class="new-modal-content">
+          <span class="new-close-btn">&times;</span>
+          <h3>Поздравляем с покупкой!</h3>
+          <p id="new-modal-item-title">Вы купили товар</p>
+          <p id="new-modal-item-price">Цена: <span id="new-modal-price"></span>₽</p>
+          <img id="new-modal-item-image" src="" alt="Изображение товара" />
+          <button id="new-modal-close-btn">Закрыть</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="start">
+        <h2>ГОТОВЫ ИСПЫТАТЬ УДАЧУ?</h2>
+        <div class="bot-buttons">
+          <a href="#cases" class="bot-btn">Выбрать кейс</a>
+          <a href="https://t.me/LootLabsTG" class="bot-btn">Наш Телеграм</a>
+        </div>
+    </section>      
+
+    <!-- Модальное окно для кейсов -->
+    <div id="caseModal" class="new-modal">
+      <div class="new-modal-content">
+        <span class="new-close-btn" onclick="closeCaseModal()">&times;</span>
+        <h2 id="modal-case-title">Базовый кейс</h2>
+        <img id="modal-case-image" src="img/case1.png" alt="Case Image">
+        <p><strong>Цена:</strong> <span id="modal-case-price">49 ₽</span></p>
+        <p><strong>Содержимое:</strong> <span id="modal-case-content">5 предметов</span></p>
+        <p><strong>Игры:</strong> <span id="modal-case-games">CS:GO, Dota 2, PUBG</span></p>
+        
+        <div class="promo-form">
+          <input type="text" placeholder="Введите промокод">
+          <button class="rate-btn" onclick="buyCase()">Купить</button>
+        </div>
+        
+        <button class="facebook-btn" onclick="shareOnFacebook()">
+          <img src="img/facebook-icon.png" alt="Facebook">
+          Поделиться с друзьями
+        </button>
+      </div>
+    </div>
+
+    <!-- Модальное окно покупки -->
+    <div id="new-purchase-modal" class="new-modal">
+      <div class="new-modal-content">
+        <span class="new-close-btn" onclick="closePurchaseModal()">&times;</span>
+        <h3>Поздравляем с покупкой!</h3>
+        <p id="new-modal-item-title">Вы купили кейс</p>
+        <p id="new-modal-item-price">Цена: <span id="new-modal-price"></span>₽</p>
+        <img id="new-modal-item-image" src="" alt="Изображение кейса">
+        <button id="new-modal-close-btn" onclick="closePurchaseModal()">Закрыть</button>
+      </div>
+    </div>
+
+    <script>
+      // Функции для модальных окон
+      function openCaseModal(title, image, price, content, games) {
+        document.getElementById('modal-case-title').textContent = title;
+        document.getElementById('modal-case-image').src = image;
+        document.getElementById('modal-case-price').textContent = price;
+        document.getElementById('modal-case-content').textContent = content;
+        document.getElementById('modal-case-games').textContent = games;
+        document.getElementById('caseModal').style.display = 'block';
+      }
+
+      function closeCaseModal() {
+        document.getElementById('caseModal').style.display = 'none';
+      }
+
+      function buyCase() {
+        const title = document.getElementById('modal-case-title').textContent;
+        const price = document.getElementById('modal-case-price').textContent;
+        const image = document.getElementById('modal-case-image').src;
+        
+        document.getElementById('new-modal-item-title').textContent = `Вы купили ${title}`;
+        document.getElementById('new-modal-price').textContent = price.replace(' ₽', '');
+        document.getElementById('new-modal-item-image').src = image;
+        
+        closeCaseModal();
+        document.getElementById('new-purchase-modal').style.display = 'block';
+      }
+
+      function closePurchaseModal() {
+        document.getElementById('new-purchase-modal').style.display = 'none';
+      }
+
+      function shareOnFacebook() {
+        alert('Ссылка скопирована в буфер обмена!');
+      }
+
+      // Закрытие модальных окон при клике вне их
+      window.onclick = function(event) {
+        if (event.target == document.getElementById('caseModal')) {
+          closeCaseModal();
+        }
+        if (event.target == document.getElementById('new-purchase-modal')) {
+          closePurchaseModal();
+        }
+      }
+
+      // Загрузка страницы
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.querySelector('.loader').style.display = 'none';
+        }, 1500);
+      });
+    </script>
+
+    <section id="contact" class="section" style="
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: Arial, sans-serif;
+    ">
+    <h2 style="margin-bottom: 20px;">Контакты</h2>
+    <p>
+      Напиши нам в Telegram: 
+      <a href="https://t.me/LootLabsTG" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        @LootLabsTG
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/HumoatStudioTM" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Главный Администратор
+      </a>
+    </p>
+    <p>
+      Сотрудничество: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Тех. Поддержка: 
+      <a href="https://t.me/@Ennardx" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Тех. Поддержка
+      </a>
+    </p>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <img src="img/Loot Labs.png" alt="Humoat Studio" class="logo" />
+    
+        <p>© 2025 LootLabs Company</p>
+        <p><a href="mailto:lootlabscompany@gmail.com">lootlabscompany</a></p>
+    
+        <p>
+          Humoat Studio<br>
+        </p>
+    
+        <div class="footer-links">
+          <a href="#">Пользовательское соглашение</a> |
+          <a href="#">Публичная оферта</a> |
+          <a href="#">Политика конфиденциальности</a>
+        </div>
+    
+        <div class="payment-icons">
+          <img src="img/CARD.png" alt="CARD"/>
+        </div>
+      </div>
+    </footer>    
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

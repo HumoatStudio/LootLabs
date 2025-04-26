@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LootLabs | Тех. Работы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="styles/menu.css"/>
+    <link rel="stylesheet" href="styles/case.css"/>
+    <link rel="stylesheet" href="styles/shop.css"/>
+    <script type="module" src="scripts/money.js"></script>
+    <script type="module" src="scripts/login.js"></script>
+    <script src="scripts/shop.js"></script>
+    <link rel="icon" href="img/Logo.png" type="image/png">
+  </head>
+    <div class="loader">
+      <h1>LootLabs</h1>
+    </div>     
+
+    <header>
+      <div class="dark-money-counter">
+        <div class="dark-money-amount">0</div>
+        <div class="dark-currency">₽</div>
+      </div>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="case.html" class="active">Кейсы</a>
+      </nav>
+    </header>
+    
+    <header class="site-header">
+      <div class="logo-container" onclick="togglePanel()">
+          <img src="img/Logo.png" alt="LootLabs Logo" class="site-logo">
+          <span class="logo-text"><span class="white">Loot</span><span class="purple">Labs</span></span>
+      </div>
+    
+      <div class="logo-panel" id="logoPanel">
+          <ul>
+              <li><a href="login.html">Вход</a></li>
+              <li><a href="registration.html">Регистрация</a></li>
+              <li><a href="promocodes.html">Промокоды</a></li>
+              <li><a href="case.html">Кейсы</a></li>
+              <li><a href="#">Тех. Поддержка</a></li>
+          </ul>
+      </div>
+    </header>
+    
+    <section class="hero">
+        <h1 style="color: white;">
+            <span style="color: #a259ff;">LootLabs</span> | Технические Работы
+        </h1>
+      <p>На данный момент страница не доступна :( на ней ведутся технические работы | Исправление багов | Улучшение страницы</p>
+    </section>
+
+    <section id="contact" class="section" style="
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: Arial, sans-serif;
+    ">
+    <h2 style="margin-bottom: 20px;">Контакты</h2>
+    <p>
+      Напиши нам в Telegram: 
+      <a href="https://t.me/LootLabsTG" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        @LootLabsTG
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/HumoatStudioTM" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Главный Администратор
+      </a>
+    </p>
+    <p>
+      Сотрудничество: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Тех. Поддержка: 
+      <a href="https://t.me/@Ennardx" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Тех. Поддержка
+      </a>
+    </p>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <img src="img/Loot Labs.png" alt="Humoat Studio" class="logo" />
+    
+        <p>© 2025 LootLabs Company</p>
+        <p><a href="mailto:lootlabscompany@gmail.com">lootlabscompany</a></p>
+    
+        <p>
+          Humoat Studio<br>
+        </p>
+    
+        <div class="footer-links">
+          <a href="#">Пользовательское соглашение</a> |
+          <a href="#">Публичная оферта</a> |
+          <a href="#">Политика конфиденциальности</a>
+        </div>
+    
+        <div class="payment-icons">
+          <img src="img/CARD.png" alt="CARD"/>
+        </div>
+      </div>
+    </footer>    
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

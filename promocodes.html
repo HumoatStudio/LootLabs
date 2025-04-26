@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>LootLabs | Промокоды</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/promocode.css">
+  <script type="module" src="scripts/payment.js"></script>
+  <link rel="icon" href="img/Logo.png" type="image/png">
+</head>
+<body>
+  <header>
+    <div class="dark-money-counter">
+      <div class="dark-money-amount">0</div>
+      <div class="dark-currency">₽</div>
+      <button id="topUpBalance" class="top-up-btn">Пополнить</button>
+    </div>
+    <nav>
+      <a href="index.html">Главная</a>
+    </nav>
+  </header>
+
+  <div class="promo-banner">
+    <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+    <span class="promo-text">
+      🔥 Промокод Авторский: 
+      <strong id="promo-code-2" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-2')">Yaroslav</strong> — скидка 10% на любой товар!
+    </span>
+  </div>
+
+<script>
+  function copyPromoCode(promoId) {
+    const text = document.getElementById(promoId).innerText;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        showCopiedPopup("Промокод скопирован!");
+      }).catch(err => {
+        console.error("Ошибка копирования:", err);
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const input = document.createElement("input");
+    input.setAttribute("value", text);
+    document.body.appendChild(input);
+    input.select();
+    try {
+      document.execCommand("copy");
+      showCopiedPopup("Промокод скопирован!");
+    } catch (err) {
+      console.error("Фолбэк копирования не удался:", err);
+    }
+    document.body.removeChild(input);
+  }
+
+  function showCopiedPopup(message) {
+    const popup = document.createElement("div");
+    popup.innerText = message;
+    popup.style.position = "fixed";
+    popup.style.bottom = "20px";
+    popup.style.left = "50%";
+    popup.style.transform = "translateX(-50%)";
+    popup.style.background = "#6f42c1";
+    popup.style.color = "#fff";
+    popup.style.padding = "10px 20px";
+    popup.style.borderRadius = "10px";
+    popup.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    popup.style.zIndex = "9999";
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+      popup.remove();
+    }, 2000);
+  }
+</script>
+
+  <section class="section">
+    <h2>Активация промокода</h2>
+    <p>Введи промокод, чтобы получить деньги на баланс</p>
+    <div class="promo-form">
+        <input id="promoCodeInput" type="text" placeholder="Введите промокод">
+        <button id="promoActivateBtn">Активировать</button>
+      </div>      
+    <p id="promoStatus" style="margin-top: 10px;"></p>
+  </section>
+
+  <script type="module" src="scripts/money.js"></script>
+
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    // ✅ Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvSqCbcqiKgVps0qgLt8HFj0bArHmCZNs",
+      authDomain: "lootlabs-deb89.firebaseapp.com",
+      projectId: "lootlabs-deb89",
+      storageBucket: "lootlabs-deb89.firebasestorage.app",
+      messagingSenderId: "861666560425",
+      appId: "1:861666560425:web:f0d97d3b51a52850505cb8"
+    };
+
+    // ✅ Инициализация
+    let app;
+    if (!getApps().length) {
+      app = initializeApp(firebaseConfig);
+    } else {
+      app = getApps()[0];
+    }
+
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const promoList = {
+      "LOOT2025": 50,
+      "NURGAMES": 50,
+      "YAROSLAV": 70,
+      "DIMACHUP": 50,
+      "APRIL2025": 25,
+      "OPEN2025": 15,
+    };
+
+    // ✅ Обработчик активации
+    async function activatePromo() {
+      const input = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+      const status = document.getElementById('promoStatus');
+      const user = auth.currentUser;
+
+      if (!user) {
+        status.textContent = "❌ Войдите в аккаунт!";
+        status.style.color = "red";
+        return;
+      }
+
+      if (!promoList[input]) {
+        status.textContent = "❌ Неверный или использованный промокод";
+        status.style.color = "red";
+        return;
+      }
+
+      const userRef = doc(db, "users", user.uid);
+      const promoKey = `promoUsed_${input}`;
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists() && userSnap.data()[promoKey]) {
+        status.textContent = "❌ Этот промокод уже был активирован";
+        status.style.color = "orange";
+        return;
+      }
+
+      try {
+        await updateDoc(userRef, {
+          balance: increment(promoList[input]),
+          [promoKey]: true,
+          lastPromoUpdate: serverTimestamp()
+        });
+
+        status.textContent = `✅ +${promoList[input]}₽ зачислены!`;
+        status.style.color = "lightgreen";
+
+      } catch (err) {
+        status.textContent = "❌ Ошибка при начислении";
+        status.style.color = "red";
+        console.error(err);
+      }
+    }
+
+    // ✅ Отображение баланса при входе
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        getDoc(userRef).then((docSnap) => {
+          if (docSnap.exists()) {
+            document.querySelector('.dark-money-amount').textContent = docSnap.data().balance || 0;
+          }
+        });
+      }
+    });
+
+    // ✅ Подключение кнопки
+    document.getElementById("promoActivateBtn").addEventListener("click", activatePromo);
+  </script>
+
+  <section id="contact" class="section" style="
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: Arial, sans-serif;">
+
+    <h2 style="margin-bottom: 20px;">Контакты</h2>
+    <p>
+      Напиши нам в Telegram: 
+      <a href="https://t.me/LootLabsTG" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        @LootLabsTG
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/HumoatStudioTM" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Главный Администратор
+      </a>
+    </p>
+    <p>
+      Сотрудничество: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <br><button id="openModalBtn">Создать промокод</button>
+    <br><br><button id="openPromoModalBtn">Больше промокодов</button>
+  </section>
+
+  <!-- Модальное окно -->
+  <div class="modal" id="promoModal">
+    <div class="modal-content">
+      <h2>Создание промокода</h2>
+      <p><br>Чтобы создать промокод, пожалуйста, свяжитесь с администрацией через Telegram:</p>
+      <p><strong><a href="https://t.me/DaniilDomashnevNikolaevich" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Даниил Домашнев Николаевич</a></strong></p>
+      <p>Для создания своего промокода вы должны иметь соц сеть где не менее 200 подписчиков и стабильно 500 просмотров.<br><br>Соц. сети могут быть любые, есть исключения</p>
+
+      <h2><br>Исключения</h2>
+      <ul>
+        <li>YouTube | Требуется 1000 постоянных просмотров</li>
+        <li>YouTube Shorts | Требуется 1500 постоянных просмотров</li>
+        <li>TikTok | Требуется 1500 постоянных просмотров</li>
+      </ul>
+
+      <h2><br>Бонусы</h2>
+      <ul>
+        <li>Ваш промокод будет работать 24/7</li>
+        <li>Вы получите список уровней для вашего промокода</li>
+        <li>Вы будете получать свой процент от пополнения баланса с вашим кодом</li>
+        <li>Вы получите бонус от 50 рублей на сайте, за создание промокода</li>
+      </ul>
+
+      <button class="close-btn" id="closeModalBtn1">Закрыть</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно Promocodes -->
+  <div class="modal" id="promoModalPromo">
+    <div class="modal-content-wrapper"></div>
+      <div class="modal-content">
+        <h1>Активные промокоды</h1>
+        <h2><br>Авторские промокоды</h2>
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод Авторский: 
+              <strong id="promo-code-4" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-4')">LOOT2025 </strong> — скидка 15% на любой товар! (lvl 5)
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод Авторский: 
+              <strong id="promo-code-1" style="cursor: pointer; text-decoration: underline; color: #333;" onclick="copyPromoCode('promo-code-1')">NURGAMES</strong> — скидка 5% на любой товар! (lvl 1)
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод Авторский: 
+              <strong id="promo-code-2" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-2')">YAROSLAV</strong> — скидка 10% на любой товар! (lvl 3)
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод Авторский: 
+              <strong id="promo-code-3" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-3')">DeVector</strong> — скидка 5% на любой товар! (lvl 1)
+            </span>
+          </div>
+
+          <h2><br>Временые промокоды</h2>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод (ВРЕМЕНЫЙ): 
+              <strong id="promo-code-5" style="cursor: pointer; text-decoration: underline; color: #c14242;" onclick="copyPromoCode('promo-code-5')">APRIL2025</strong> — 25 рублей
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод (ВРЕМЕНЫЙ): 
+              <strong id="promo-code-6" style="cursor: pointer; text-decoration: underline; color: #c14242;" onclick="copyPromoCode('promo-code-6')">OPEN2025</strong> — 15 рублей
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод (ВРЕМЕНЫЙ): 
+              <strong id="promo-code-7" style="cursor: pointer; text-decoration: underline; color: #c14242;" onclick="copyPromoCode('promo-code-7')">OPEN2025</strong> — 15 рублей
+            </span>
+          </div>
+
+          <h2><br>Скидочные промокоды</h2>
+          <h3>(ВРЕМЕНО)</h3>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод (СКИДКА): 
+              <strong id="promo-code-8" style="cursor: pointer; text-decoration: underline; color: #57c142;" onclick="copyPromoCode('promo-code-8')">DROP5</strong> — скидка 7% на любой кейс!
+            </span>
+          </div>
+
+          <div class="promo-banner">
+            <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
+            <span class="promo-text">
+              🔥 Промокод (СКИДКА): 
+              <strong id="promo-code-9" style="cursor: pointer; text-decoration: underline; color: #57c142;" onclick="copyPromoCode('promo-code-9')">LUCKY5</strong> — скидка 5% на любой кейс!
+            </span>
+          </div>
+        </div>
+      <button class="close-btn" id="closeModalBtn2">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('promoModal');
+    const modalPromo = document.getElementById('promoModalPromo');
+    const openBtn = document.getElementById('openModalBtn');
+    const openBtnPromo = document.getElementById('openPromoModalBtn');
+    const closeBtn1 = document.getElementById('closeModalBtn1');
+    const closeBtn2 = document.getElementById('closeModalBtn2');
+
+    openBtn.onclick = () => {
+      modal.style.display = 'flex';
+    };
+
+    openBtnPromo.onclick = () => {
+      modalPromo.style.display = 'flex';
+    };
+
+    closeBtn1.onclick = () => {
+      modal.style.display = 'none';
+    };
+
+    closeBtn2.onclick = () => {
+      modalPromo.style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+      if (e.target === modalPromo) modalPromo.style.display = 'none';
+    };
+  </script>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <img src="img/Loot Labs.png" alt="Humoat Studio" class="logo" />
+
+      <p>© 2025 LootLabs Company</p>
+      <p><a href="mailto:lootlabscompany@gmail.com">lootlabscompany</a></p>
+
+      <p>
+        Humoat Studio<br>
+      </p>
+
+      <div class="footer-links">
+        <a href="#">Пользовательское соглашение</a> |
+        <a href="#">Публичная оферта</a> |
+        <a href="#">Политика конфиденциальности</a>
+      </div>
+
+      <div class="payment-icons">
+        <img src="img/CARD.png" alt="CARD"/>
+      </div>
+    </div>
+  </footer> 
+
+  <script src="console.js"></script>
+</body>
+</html>

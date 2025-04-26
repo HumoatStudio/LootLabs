@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="style.css"/>
     <link rel="stylesheet" href="styles/shop.css"/>
     <link rel="stylesheet" href="styles/menu.css"/>
+    <script type="module" src="scripts/money.js"></script>
+    <script type="module" src="scripts/login.js"></script>
+    <script type="module" src="scripts/payment.js"></script>
     <link rel="icon" href="img/Logo.png" type="image/png">
   </head>
   <body>
@@ -19,6 +22,7 @@
       <div class="dark-money-counter">
         <div class="dark-money-amount">0</div>
         <div class="dark-currency">₽</div>
+        <button id="topUpBalance" class="top-up-btn">Пополнить</button>
       </div>
       <nav>
         <a href="#store">Магазин</a>
@@ -38,16 +42,71 @@
           <ul>
               <li><a href="login.html">Вход</a></li>
               <li><a href="registration.html">Регистрация</a></li>
-              <li><a href="#">Промокоды</a></li>
-              <li><a href="#">Тех. Поддержка</a></li>
+              <li><a href="promocodes.html">Промокоды</a></li>
+              <li><a href="Jobs.html" class="active">Кейсы</a></li>
+              <li><a href="Support.html">Тех. Поддержка</a></li>
           </ul>
       </div>
     </header>
 
     <div class="promo-banner">
       <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
-      <span class="promo-text">🔥 Промокод: <strong>LOOT2025</strong> — скидка 15% на любой товар!</span>
+      <span class="promo-text">
+        🔥 Промокод: 
+        <strong id="promo-code" style="cursor: pointer; text-decoration: underline;" onclick="copyPromoCode()">LOOT2025</strong> — скидка 15% на любой товар!
+      </span>
     </div>
+    
+    <script>
+      function copyPromoCode() {
+        const text = document.getElementById("promo-code").innerText;
+    
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            showCopiedPopup("Промокод скопирован!");
+          }).catch(err => {
+            console.error("Ошибка копирования:", err);
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+    
+      function fallbackCopy(text) {
+        const input = document.createElement("input");
+        input.setAttribute("value", text);
+        document.body.appendChild(input);
+        input.select();
+        try {
+          document.execCommand("copy");
+          showCopiedPopup("Промокод скопирован!");
+        } catch (err) {
+          console.error("Фолбэк копирования не удался:", err);
+        }
+        document.body.removeChild(input);
+      }
+    
+      function showCopiedPopup(message) {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "fixed";
+        popup.style.bottom = "20px";
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.background = "#6f42c1";
+        popup.style.color = "#fff";
+        popup.style.padding = "10px 20px";
+        popup.style.borderRadius = "10px";
+        popup.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+        popup.style.zIndex = "9999";
+        document.body.appendChild(popup);
+    
+        setTimeout(() => {
+          popup.remove();
+        }, 2000);
+      }
+    </script>    
     
     <section class="hero">
         <h1 style="color: white;">
@@ -64,7 +123,7 @@
 
         <div class="item-card">
           <img src="img/So2Boost.jpg" alt="Предмет 1">
-          <h3>🔥 АПАЙ РАНГ В STANDOFF 2 БЫСТРО И БЕЗ СТРЕССА! 🔥  </h3>
+          <h3>🔥 АПАЙ РАНГ В STANDOFF 2 БЫСТРО И БЕЗ СТРЕССА! 🔥</h3>
           <p>💥 Будь выше остальных — стань настоящей легендой Standoff 2! 💥</p>
           <div class="price-wrapper">
             <span class="old-price">200₽</span>
@@ -107,7 +166,13 @@
               Ты — следующий топ в Standoff 2! 🚀" data-image="img/So2Boost.jpg">
                 Подробнее
             </button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn"
+              data-price="150"
+              data-title="🔥 АПАЙ РАНГ В STANDOFF 2 БЫСТРО И БЕЗ СТРЕССА! 🔥"
+              data-image="img/So2Boost.jpg"
+              data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+              Купить
+            </button>
           </div>
         </div>
 
@@ -152,7 +217,13 @@
             🧠 Создан для тех, кто хочет большего. Забудь про лимиты — играй по своим правилам.
             
             Товар не принадлежит возрату!!!" data-image="img/Nurik.jpg">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn" 
+              data-price="100" 
+              data-title="🔥Кряк Nursultan NextGen🔥" 
+              data-image="img/Nurik.jpg"
+              data-download-link="https://disk.yandex.com/d/BCmprLjKL1vRYQ">
+              Купить
+            </button>
           </div>
         </div>
         
@@ -186,7 +257,13 @@
 ⚠️ Только для личного использования. Ты знаешь, что делать.
 
 Товар не принадлежит возрату!!!" data-image="img/WexSide.jpg">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn" 
+              data-price="95" 
+              data-title="🛠 Кряк WexSide 1.16.5" 
+              data-image="img/WexSide.jpg"
+              data-download-link="https://disk.yandex.com/d/X5WNKgIzWMeFgA">
+              Купить
+            </button>
           </div>
         </div>
 
@@ -196,12 +273,12 @@
           <img src="img/TGDisigne.jpg" alt="Предмет 4">
           <h3>ОФОРМЛЕНИЕ ТЕЛЕГРАМ-КАНАЛОВ 🎨✨</h3>
           <p>Хочешь, чтобы твой канал выглядел стильно и привлекал подписчиков с первого взгляда? 🧲🔥</p>
-          <span class="price">от 50₽</span>
+          <span class="price">75₽</span>
           <div class="card-buttons">
             <button class="details-btn" data-description="Хочешь, чтобы твой канал выглядел стильно и привлекал подписчиков с первого взгляда? 🧲🔥
 
             Я помогу тебе с этим! 🚀
-            Делаю крутое оформление Telegram-канала всего от 50₽ за 1 работу 💸
+            Делаю крутое оформление Telegram-канала всего от 75₽ за 1 работу 💸
             
             📌 Обложки
             🖼️ Аватарки
@@ -211,7 +288,13 @@
             
             Всё, чтобы твой канал выглядел по-настоящему 🔥 и выделялся среди остальных!
             Прокачай свой канал уже сегодня! 💪💼" data-image="img/TGDisigne.jpg">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn"
+              data-price="75"
+              data-title="ОФОРМЛЕНИЕ ТЕЛЕГРАМ-КАНАЛОВ 🎨✨"
+              data-image="img/TGDisigne.jpg"
+              data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+              Купить
+            </button>
           </div>
         </div>
 
@@ -248,7 +331,13 @@
             Соло-игра — мой стиль
             Каждое решение — моё
             Каждая победа — только моя заслуга" data-image="img/BSTrophies300.png">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn"
+              data-price="120"
+              data-title="Поднимаем 300+кубков на любом бойце"
+              data-image="img/BSTrophies300.png"
+              data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+              Купить
+            </button>
           </div>
         </div>
 
@@ -291,7 +380,13 @@
             
             🔓 Этот путь не для всех…
             Но я готов пройти его до конца" data-image="img/BSTrophies600.png">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <button class="buy-btn"
+              data-price="199"
+              data-title="🔥 Поднимаю 600+ кубков на любом бойце!"
+              data-image="img/BSTrophies600.png"
+              data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+              Купить
+            </button>
           </div>
         </div>
 
@@ -302,6 +397,10 @@
           <h3>🔥 500k Рублей в Black Russia 🔥</h3>
           <p>🎁 🔥 500.000₽ в Black Russia + Подарок! 🔥</p>
           <span class="price">75₽</span>
+
+          <!-- <div class="stock-status">✅ В наличии</div> -->
+          <div class="stock-status-no">❌ В наличии НЕТ</div>
+
           <div class="card-buttons">
             <button class="details-btn" data-description="🎁 🔥 500.000₽ в Black Russia + Подарок! 🔥
 
@@ -318,7 +417,13 @@
             ✅ Работаем честно и надёжно
             
             📩 Просто напиши нужные данные при заказе — остальное сделаем мы!" data-image="img/Ryazan500k.png">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            <!-- <button class="buy-btn"
+            data-price="75"
+            data-title="🔥 500k Рублей в Black Russia 🔥"
+            data-image="img/Ryazan500k.png"
+            data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+            Купить
+          </button> -->
           </div>
         </div>
 
@@ -333,28 +438,161 @@
             <span class="price">125₽</span>
             <span class="discount-badge">-7,41 %</span>
           </div>
+
+          <!-- <div class="stock-status">✅ В наличии</div> -->
+          <div class="stock-status-no">❌ В наличии НЕТ</div>
+        
           <div class="card-buttons">
             <button class="details-btn" data-description="🎁 🔥 1.000.000₽ в Black Russia + Подарок! 🔥
+        
+        💸 Получи полмиллиона рублей в игре Black Russia всего за 10–15 минут!
+        🎉 Каждый покупатель получает приятный бонус!
+        
+        🟣 Что нужно для получения:
+        • Уровень аккаунта не ниже чем 3
+        • Ваш никнейм, сервер и номер банковского счёта в игре
+        • Открытый доступ к переводу
+        
+        ✅ Безопасно для аккаунта
+        ✅ Быстрое зачисление
+        ✅ Работаем честно и надёжно
+        
+        📩 Просто напиши нужные данные при заказе — остальное сделаем мы!" 
+            data-image="img/Ryazan1kk.png">Подробнее</button>
+            <!-- <button class="buy-btn"
+            data-price="125"
+            data-title="🔥 1kk Рублей в Black Russia 🔥"
+            data-image="img/Ryazan1kk.png"
+            data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+            Купить
+          </button> -->
+          </div>
+        </div>   
+        
+        <!-- Тавар 9 -->
 
-            💸 Получи полмиллиона рублей в игре Black Russia всего за 10–15 минут!
-            🎉 Каждый покупатель получает приятный бонус!
+        <div class="item-card">
+          <img src="img/Robux150.png" alt="Предмет 9">
+          <h3>🔥 150 Робуксов</h3>
+          <p>🔥 150 Робуксов на ваш аккаунт</p>
+          <span class="price">150₽</span>
+
+          <!-- <div class="stock-status">✅ В наличии</div> -->
+          <div class="stock-status-no">❌ В наличии НЕТ</div>
+
+          <div class="card-buttons">
+            <button class="details-btn" data-description="🎁 🔥 150 Робуксов на ваш аккаунт ROBLOX
+
+            Получите 150 Robux быстро и без лишних хлопот!
             
-            🟣 Что нужно для получения:
-            • Уровень аккаунта не ниже чем 3
-            • Ваш никнейм, сервер и номер банковского счёта в игре
-            • Открытый доступ к переводу
+            💎 Что вы получите:
+            — 150 Robux на ваш аккаунт
+            — Мгновенная отправка после оплаты
+            — Безопасно и надежно
             
-            ✅ Безопасно для аккаунта
-            ✅ Быстрое зачисление
-            ✅ Работаем честно и надёжно
+            📌 Как это работает:
             
-            📩 Просто напиши нужные данные при заказе — остальное сделаем мы!" data-image="img/Ryazan1kk.png">Подробнее</button>
-            <button class="buy-btn">Купить</button>
+            1. Укажите ваш ник в ROBLOX при покупке
+            
+            2. Дождитесь подтверждения и перевода
+            
+            3. Наслаждайтесь покупками в игре!
+            
+            🕒 Срок доставки: от 5 минут до 1 часа
+            
+            📢 Внимание: Убедитесь, что ваш аккаунт открыт для получения средств или предварительно добавьте в друзья.
+            
+            💬 Есть вопросы? Пишите — всегда на связи!" data-image="img/Robux150.png">Подробнее</button>
+            <!-- <button class="buy-btn"
+            data-price="150"
+            data-title="🔥 150 Робуксов"
+            data-image="img/Robux150.png"
+            data-telegram="https://t.me/DaniilDomashnevNikolaevich">
+            Купить
+          </button> -->
           </div>
         </div>
 
+        <!-- Тавар 10 -->
+
+        <div class="item-card">
+          <img src="img/Sspotify.jpg" alt="Предмет 10">
+          <h3>🎧 Spotify Premium — Навсегда 🔥</h3>
+          <p>✅ Полный доступ к Spotify Premium и 🚫 Без рекламы</p>
+          <div class="price-wrapper">
+            <span class="old-price">150₽</span>
+            <span class="price">119</span>
+            <span class="discount-badge">-20,67 %</span>
+          </div>
+
+          <!-- <div class="stock-status">✅ В наличии</div> -->
+          <div class="stock-status-no">❌ В наличии НЕТ</div>
+          
+          <div class="card-buttons">
+            <button class="details-btn" data-description="📱 Платформа: Android
+            🛠 Формат: APK-файл + инструкция
+            
+            Что ты получаешь:
+            ✅ Полный доступ к Spotify Premium
+            
+            🚫 Без рекламы
+            
+            ⏭️ Неограниченные пропуски треков
+            
+            🎵 Качество звука — на максимум
+            
+            📥 Скачивание треков
+            
+            📲 Музыка в фоне и оффлайн
+            
+            Как установить?
+            Получаешь APK-файл + TXT-инструкцию
+            
+            Устанавливаешь за 2 минуты
+            
+            Запускаешь — и наслаждаешься музыкой без ограничений!
+            
+            Безопасность:
+            🔒 Проверено на вирусы
+            
+            ⚙️ Не требует root
+            
+            ⚠️ Только для личного пользования
+            
+            📦 Гарантия замены, если не работает
+            🎁 Бонус: плейлист на 200+ треков!" data-image="img/Sspotify.jpg">Подробнее</button>
+            <button class="buy-btn" 
+              data-price="119" 
+              data-title="🎧 Spotify Premium — Навсегда 🔥" 
+              data-image="img/Sspotify.jpg"
+              data-download-link="https://disk.yandex.ru/d/d0iRWhtHW--Opw">
+              Купить
+            </button>
+          </div>
+        </div>
+    
+      <!-- Модальное окно -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDescription"></p>
+        </div>
       </div>
-    </section>    
+
+      <!-- Новое модальное окно для успешной покупки -->
+      <div id="new-purchase-modal" class="new-modal">
+        <div class="new-modal-content">
+          <span class="new-close-btn">&times;</span>
+          <h3>Поздравляем с покупкой!</h3>
+          <p id="new-modal-item-title">Вы купили товар</p>
+          <p id="new-modal-item-price">Цена: <span id="new-modal-price"></span>₽</p>
+          <img id="new-modal-item-image" src="" alt="Изображение товара" />
+          <button id="new-modal-close-btn">Закрыть</button>
+        </div>
+      </div>
+
+    </section>
 
     <section id="about" class="section">
       <h2>О нас</h2>
@@ -394,15 +632,6 @@
       </div>
     
       <p>Присоединяйся и стань частью комьюнити <span class="lootlabs-text">LootLabs</span> — твой путь к игровому превосходству!</p>
-    
-      <!-- Модальное окно -->
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <h2 id="modalTitle"></h2>
-          <p id="modalDescription"></p>
-        </div>
-      </div>
     </section>
 
     <section id="reviews" class="section">
@@ -423,7 +652,30 @@
           <p><strong>Сергей</strong></p>
           <p>Спасибо! Вирты пришли за 5 минут! Всем рекомендую.</p>
         </div>
+        <div class="review-card">
+          <img src="img/отзыв4.jpg" alt="Фото 4" class="review-image">
+          <p><strong>NebulaToast</strong></p>
+          <p>Чит от Nurik доставили чётко, всё в лучшем виде,<br>как и обещали.Реально имба, ебать как жёстко работает<br>даже не верится. Спасибо, топово сделали! 🔥</p>
+        </div>
+        <div class="review-card">
+          <img src="img/отзыв5.jpg" alt="Фото 5" class="review-image">
+          <p><strong>Крабик в Астрале</strong></p>
+          <p>Бляя спасибо!!! Робуксы доставились в лучшем виде!</p>
+        </div>
+        <div class="review-card">
+          <img src="img/отзыв6.jpg" alt="Фото 6" class="review-image">
+          <p><strong>Эдичека Плеей</strong></p>
+          <p>Бля спасибо большое!!!<br>было 2кк стало 8кк! лучший сервис</p>
+        </div>
+        <div class="review-card">
+          <img src="img/отзыв7.jpg" alt="Фото 7" class="review-image">
+          <p><strong>Вы кто такие?</strong></p>
+          <p>спасибо!! вирты пришли в лучшем виде! всего за 10 минут</p>
+        </div>
       </div>
+
+      <br><a href="https://t.me/LootLabsTG" class="rate-btn">Оставить отзыв</a>
+
     </section>
     
     <style>
@@ -480,39 +732,75 @@
         </div>
     </section>      
 
-    <section id="contact" class="section">
-      <h2>Контакты</h2>
-      <p style="color: white">
-        Напиши нам в Telegram: 
-        <a href="https://t.me/LootLabsTG" target="_blank" style="color: white; text-decoration: underline;">
-            @LootLabsTG
-        </a>
-      </p>
-      <p style="color: white">
-        Напиши нам в личку: 
-        <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: white; text-decoration: underline;">
-            Основатель
-        </a>
-      </p>
-      <p style="color: white">
-        Напиши нам в личку: 
-        <a href="https://t.me/HumoatStudioTM" target="_blank" style="color: white; text-decoration: underline;">
-          Главный Администратор
-        </a>
-      </p>     
-    </section>
+    <section id="contact" class="section" style="
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: Arial, sans-serif;
+  ">
+    <h2 style="margin-bottom: 20px;">Контакты</h2>
+    <p>
+      Напиши нам в Telegram: 
+      <a href="https://t.me/LootLabsTG" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        @LootLabsTG
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Напиши нам в личку: 
+      <a href="https://t.me/HumoatStudioTM" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Главный Администратор
+      </a>
+    </p>
+    <p>
+      Сотрудничество: 
+      <a href="https://t.me/DaniilDomashnevNikolaevich" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Основатель
+      </a>
+    </p>
+    <p>
+      Тех. Поддержка: 
+      <a href="https://t.me/@Ennardx" target="_blank" style="color: #66ccff; text-decoration: underline;">
+        Тех. Поддержка
+      </a>
+    </p>
+  </section>
 
-    <footer>&copy; 2025 LootLabs. Все права защищены.</footer>
-
-    <script>import { togglePanel } from './script.js';
-
-      document.addEventListener('DOMContentLoaded', function() {
-        const logoContainer = document.querySelector('.logo-container');
-        logoContainer.addEventListener('click', togglePanel);
-      });
-      </script>"
+    <footer class="footer">
+      <div class="footer-content">
+        <img src="img/Loot Labs.png" alt="Humoat Studio" class="logo" />
+    
+        <p>© 2025 LootLabs Company</p>
+        <p><a href="mailto:lootlabscompany@gmail.com">lootlabscompany</a></p>
+    
+        <p>
+          Humoat Studio<br>
+        </p>
+    
+        <div class="footer-links">
+          <a href="#">Пользовательское соглашение</a> |
+          <a href="#">Публичная оферта</a> |
+          <a href="#">Политика конфиденциальности</a>
+        </div>
+    
+        <div class="payment-icons">
+          <img src="img/CARD.png" alt="CARD"/>
+        </div>
+      </div>
+    </footer>    
+      </script>
     <script type="module" src="script.js"></script>
     <script src="scripts/shop.js"></script>
     <script src="scripts/promo.js"></script>
+    <script src="console.js"></script>
   </body>
 </html>

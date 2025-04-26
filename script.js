@@ -30,3 +30,12 @@ document.addEventListener("click", function (event) {
     panel.classList.remove("show");
   }
 });
+
+function copyPromoCode() {
+  const promoText = document.getElementById('promo-code').innerText;
+  navigator.clipboard.writeText(promoText).then(() => {
+    alert("Промокод скопирован: " + promoText);
+  }).catch(err => {
+    console.error("Ошибка копирования промокода: ", err);
+  });
+}
