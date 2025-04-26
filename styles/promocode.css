@@ -1,0 +1,100 @@
+.promoModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative; /* добавлено */
+    background: rgb(19, 19, 19);
+    padding: 60px 20px 80px; /* отступ снизу для кнопки */
+    border-radius: 30px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    max-height: 80vh; /* Ограничиваем по высоте */
+    overflow-y: auto; /* Добавляем вертикальный скролл */
+    padding-right: 10px; /* Небольшой отступ для скролла */
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #a259ff;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+
+  .promo-banner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .promo-logo {
+    width: 40px;
+    margin-right: 10px;
+  }
+
+  .promo-text {
+    font-size: 16px;
+  }
+  
+  /* На всякий случай убираем эффекты наведения */
+  .close-btn:hover,
+  .close-btn:focus,
+  .close-btn:active {
+    background-color: #a259ff;
+    color: white;
+    box-shadow: none;
+    transform: translateX(-50%);
+  }
+
+  .promoModalPromo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .modal-content::-webkit-scrollbar-track {
+    background: transparent; /* Убираем белый фон */
+    border-radius: 10px;
+  }
+  
+  .modal-content::-webkit-scrollbar-thumb {
+    background-color: #a259ff; /* Фиолетовый */
+    border-radius: 10px;
+  }
+  
+  /* Для Firefox */
+  .modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: #a259ff transparent;
+  }
+  
+
+  
