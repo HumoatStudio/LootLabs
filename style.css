@@ -558,8 +558,23 @@ header {
 /* Адаптация */
 @media (max-width: 768px) {
   .dark-money-counter {
-    padding: 12px 18px;
+    display: flex; /* Меняем с inline-flex на flex */
+    flex-direction: column; /* В столбик */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 20px;
     font-size: 1em;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .top-up-btn {
+    margin-left: 0;
+    width: 100%; /* Чтобы кнопка была широкой */
+    text-align: center;
+    padding: 10px 0;
   }
 }
 
@@ -727,7 +742,6 @@ header {
 .telegram-link:hover {
   text-decoration: underline;
 }
-
 
 /* Стили для кнопки "Пополнить" */
 
