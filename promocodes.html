@@ -118,11 +118,10 @@
     const db = getFirestore(app);
 
     const promoList = {
-      "LOOT2025": { amount: 15, type: "author" }, // 15% скидка
-      "YAROSLAV": { amount: 10, type: "author" }, // 10% скидка
-      "APRIL2025": { amount: 25, type: "money" },   // 25 рублей на баланс
+      "LOOT2025": { amount: 50, type: "author" },
       "NURGAMES": { amount: 50, type: "author" },
-      "DEVECTOR": { amount: 50, type: "author" },
+      "YAROSLAV": { amount: 70, type: "author" },
+      "DIMACHUP": { amount: 50, type: "author" },
       "APRIL2025": { amount: 25, type: "temporary" },
       "OPEN2025": { amount: 15, type: "temporary" },
     };
@@ -157,28 +156,46 @@
       return;
     }
 
-    try {
-      if (promo.type === "money") {
-        // Для денежных промокодов
+    // Проверка для авторских промокодов
+    if (promo.type === "author") {
+      const authorPromoKey = "authorPromoUsed";
+      if (userSnap.exists() && userSnap.data()[authorPromoKey]) {
+        status.textContent = "❌ Вы уже использовали авторский промокод";
+        status.style.color = "orange";
+        return;
+      }
+
+      try {
+        await updateDoc(userRef, {
+          balance: increment(promo.amount),
+          [promoKey]: true,
+          [authorPromoKey]: true, // Отмечаем, что авторский промокод использован
+          lastPromoUpdate: serverTimestamp()
+        });
+
+        status.textContent = `✅ +${promo.amount}₽ зачислены!`;
+        status.style.color = "lightgreen";
+      } catch (err) {
+        status.textContent = "❌ Ошибка при начислении";
+        status.style.color = "red";
+        console.error(err);
+      }
+    } else {
+      // Для временных промокодов
+      try {
         await updateDoc(userRef, {
           balance: increment(promo.amount),
           [promoKey]: true,
           lastPromoUpdate: serverTimestamp()
         });
+
         status.textContent = `✅ +${promo.amount}₽ зачислены!`;
-      } else if (promo.type === "discount") {
-        // Для скидочных промокодов
-        await updateDoc(userRef, {
-          [promoKey]: true,
-          lastPromoUpdate: serverTimestamp()
-        });
-        status.textContent = `✅ Скидка ${promo.amount}% активирована!`;
+        status.style.color = "lightgreen";
+      } catch (err) {
+        status.textContent = "❌ Ошибка при начислении";
+        status.style.color = "red";
+        console.error(err);
       }
-      status.style.color = "lightgreen";
-    } catch (err) {
-      status.textContent = "❌ Ошибка при активации";
-      status.style.color = "red";
-      console.error(err);
     }
   }
 
@@ -274,7 +291,7 @@
             <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
             <span class="promo-text">
               🔥 Промокод Авторский: 
-              <strong id="promo-code-4" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-4')">LOOT2025 </strong> — скидка 15% на любой товар! (lvl 5)
+              <strong id="promo-code-4" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-4')">LOOT2025 </strong> — минус 15% на первый заказ! (lvl 5)
             </span>
           </div>
 
@@ -282,7 +299,7 @@
             <img src="img/Logo.png" alt="LootLabs Logo" class="promo-logo">
             <span class="promo-text">
               🔥 Промокод Авторский: 
-              <strong id="promo-code-1" style="cursor: pointer; text-decoration: underline; color: #333;" onclick="copyPromoCode('promo-code-1')">NURGAMES</strong> — скидка 5% на любой товар! (lvl 1)
+              <strong id="promo-code-1" style="cursor: pointer; text-decoration: underline; color: #6f42c1;" onclick="copyPromoCode('promo-code-1')">NURGAMES</strong> — скидка 5% на любой товар! (lvl 1)
             </span>
           </div>
 
